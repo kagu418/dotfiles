@@ -1,0 +1,24 @@
+# Don't print a new line at the start of the prompt
+add_newline = false
+
+[nodejs]
+symbol = " "
+
+[php]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[gcloud]
+disabled = true
+
+[git_branch]
+symbol = " "
+
+[lua]
+symbol = " "
+

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+if [[ "$(uname)" = "Darwin" ]]; then
+  # GNU coreutils
+  ( hash gcp 2>/dev/null; ) && alias cp="gcp -i"
+  ( hash gdate 2>/dev/null; ) && alias date="gdate"
+  ( hash gdu 2>/dev/null; ) && alias du="gdu"
+  ( hash gfind 2>/dev/null; ) && alias find="gfind"
+  ( hash ghead 2>/dev/null; ) && alias head="ghead"
+  ( hash gmkdir 2>/dev/null; ) && alias mkdir="gmkdir"
+  ( hash gmv 2>/dev/null; ) && alias mv="gmv -i"
+  ( hash grm 2>/dev/null; ) && alias rm="grm -i"
+  ( hash gtail 2>/dev/null; ) && alias sed="gtail"
+  ( hash gtee 2>/dev/null; ) && alias tee="gtee"
+  ( hash gtr 2>/dev/null; ) && alias tr="gtr"
+  # GNU findutils
+  ( hash gfind 2>/dev/null; ) && alias find="gfind"
+  # GNU grep
+  ( hash ggrep 2>/dev/null; ) && alias grep="ggrep --color=auto"
+  # GNU sed
+  ( hash gsed 2>/dev/null; ) && alias sed="gsed"
+
+  if hash dark-mode 2>/dev/null; then
+    alias dark="dark-mode on"
+    alias light="dark-mode off"
+  fi
+
+  alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+  alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+  alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+  alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+fi
+
+alias reload='. $ZDOTDIR/.zshrc'
+
+alias ~="cd ~"
+alias ..="cd .."
+alias path='tr ':' '"'\n'"' <<< $PATH'
+alias ea='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/alacritty/alacritty.yml'
+alias en='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/nvim/init.lua'
+alias et='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/tmux/tmux.conf'
+alias ez='$EDITOR -c '"'cd %:h'"' $ZDOTDIR/.zshrc'
+
+alias ip4="dig +short @resolver1.opendns.com myip.opendns.com | tee >(pbcopy)"
+alias localip="ipconfig getifaddr en0 | tee >(pbcopy)"
+
+( hash bat 2>/dev/null; ) && alias cat="bat -pp"
+
+if hash exa 2>/dev/null; then
+  alias ls="exa -G --icons --color auto -a -s type"
+  alias ll="exa -l --icons --color always -a -s type"
+fi

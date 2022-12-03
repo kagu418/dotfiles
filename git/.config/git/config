@@ -1,0 +1,9 @@
+[user]
+	name = kagu418
+	email = 82737385+kagu418@users.noreply.github.com
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
+[alias]
+	lg = log --color --graph --pretty=format:'%C(magenta)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
