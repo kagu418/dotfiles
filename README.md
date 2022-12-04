@@ -5,5 +5,5 @@ This repository for configuring a terminal environment and other various system 
 ## Installation
 
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/kagu418/dotfiles/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/kagu418/dotfiles/HEAD/install.sh)"
 ```
