@@ -5,7 +5,7 @@ BREW_PREFIX="/opt/homebrew"
 REPO="https://github.com/kagu418/dotfiles"
 
 if [[ -d "$DOTFILES_DIR" ]]; then
-  printf "dotfiles already exists on this system.\n"
+  printf "dotfiles already exists on this system.\n" >&2
   exit 1
 fi
 
@@ -17,9 +17,9 @@ else
 fi
 
 if [[ -d "$DOTFILES_DIR" ]]; then
-  printf "Succeeded to download repository to %s\n" "$DOTFILES_DIR"
+  printf "Succeeded to clone repository to %s\n" "$DOTFILES_DIR"
 else
-  printf "Failed to download repository or extract tar.\n"
+  printf "Failed to clone repository.\n" >&2
   exit 1
 fi
 
