@@ -12,17 +12,8 @@ fi
 if ( hash git 2>/dev/null ); then
   git clone --recursive "$REPO.git" "$DOTFILES_DIR"
 else
-  url="$REPO/archive/refs/heads/main.tar.gz"
-  output="$HOME/dotfiles.tar.gz"
-
-  if ( hash curl 2>/dev/null ); then
-    curl -L "$url" -o "$output"
-  elif ( hash wget 2>/dev/null ); then
-    wget "$url" -O "$output"
-  else
-    exit 1
-  fi
-    tar xzf "$output" && rm "$output" && mv "$HOME/dotfiles-main" "$DOTFILES_DIR"
+  printf "You must install Git before running this shell script.\n" >&2
+  exit 1
 fi
 
 if [[ -d "$DOTFILES_DIR" ]]; then
