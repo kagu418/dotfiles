@@ -29,8 +29,18 @@ else
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+if ! [[ -x "$BREW_PREFIX/bin/brew" ]]; then
+  printf "Failed to install Homebrew.\n" >&2
+  exit 1
+fi
+
 $BREW_PREFIX/bin/brew analytics off
 $BREW_PREFIX/bin/brew bundle -v --file="$DOTFILES_DIR/brew/.config/brew/Brewfile"
+
+if ! [[ -x "$BREW_PREFIX/bin/stow" ]]; then
+  printf "Failed to install Stow.\n" >&2
+  exit 1
+fi
 
 for dir in "$DOTFILES_DIR"/*; do
   [[ -d "$dir" ]] || continue
