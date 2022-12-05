@@ -4,33 +4,34 @@ DOTFILES_DIR="$HOME/dotfiles"
 BREW_PREFIX="/opt/homebrew"
 REPO="https://github.com/kagu418/dotfiles"
 
-if [[ -d "$DOTFILES_DIR" ]]; then
-  printf "dotfiles already exists on this system.\n" >&2
-  exit 1
-fi
-
-if ( hash git 2>/dev/null ); then
-  git clone --recursive "$REPO.git" "$DOTFILES_DIR"
-else
-  printf "You must install Git before running this shell script.\n" >&2
-  exit 1
-fi
-
-if [[ -d "$DOTFILES_DIR" ]]; then
-  printf "Succeeded to clone repository to %s\n" "$DOTFILES_DIR"
-else
-  printf "Failed to clone repository.\n" >&2
+if ! [[ -d "$(xcode-select -p)" ]]; then
+  printf "You must install Command Line Tools before running this shell script.\n" >&2
+  printf "Use \`xcode-select --install\`.\n" >&2
   exit 1
 fi
 
 if ( hash brew 2>/dev/null ); then
-  printf "Homebrew already installed.\n"
+  printf "Skipping install Homebrew. It is already installed.\n"
 else
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 if ! [[ -x "$BREW_PREFIX/bin/brew" ]]; then
   printf "Failed to install Homebrew.\n" >&2
+  exit 1
+fi
+
+if [[ -d "$DOTFILES_DIR" ]]; then
+  printf "dotfiles already exists on this system.\n" >&2
+  exit 1
+fi
+
+git clone --recursive "$REPO.git" "$DOTFILES_DIR"
+
+if [[ -d "$DOTFILES_DIR" ]]; then
+  printf "Succeeded to clone repository to %s\n" "$DOTFILES_DIR"
+else
+  printf "Failed to clone repository.\n" >&2
   exit 1
 fi
 
