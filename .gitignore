@@ -1,0 +1,10 @@
+.DS_Store
+brew/.config/brew/Brewfile.lock.json
+karabiner/.config/karabiner/automatic_backups
+nvim/.config/nvim/plugin/packer_compiled.lua
+zsh/.config/zsh/.zcompcache
+zsh/.config/zsh/.zcompdump
+zsh/.config/zsh/.zsh_history
+zsh/.config/zsh/.zsh_sessions
+zsh/.config/zsh/zcompdump*
+zsh/.config/zsh/local
