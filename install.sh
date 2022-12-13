@@ -38,7 +38,7 @@ else
 fi
 
 $BREW_PREFIX/bin/brew analytics off
-$BREW_PREFIX/bin/brew bundle -v --file="$DOTFILES_DIR/brew/.config/brew/Brewfile"
+$BREW_PREFIX/bin/brew bundle -v --file="$DOTFILES_DIR/macos/Brewfile"
 
 if ! [[ -x "$BREW_PREFIX/bin/stow" ]]; then
   printf "Failed to install Stow.\n" >&2
