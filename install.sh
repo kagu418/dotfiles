@@ -49,3 +49,5 @@ for dir in "$DOTFILES_DIR"/*; do
   [[ -d "$dir" ]] || continue
   $BREW_PREFIX/bin/stow -d "$DOTFILES_DIR" -t "$HOME" -R -v "${dir#"$DOTFILES_DIR"/}"
 done
+
+/bin/bash "$DOTFILES_DIR/macos/defaults"
