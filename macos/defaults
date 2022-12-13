@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# Disable press and hold for keys in favor of keys repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Automatically hide and show scrollbars
+defaults write -g AppleShowScrollBars -string Automatic
+
+# Show all file extensions in the Finder
+defaults write -g AppleShowAllExtensions -bool true
+
+# Set a shorter delay until keys repeat
+defaults write -g InitialKeyRepeat -int 10
+
+# Set keys repeat rate to blazingly fast
+defaults write -g KeyRepeat -int 1
+
+# Disable automatic capitalization
+defaults write -g NSAutomaticCapitalizationEnabled -bool false
+
+# Disable automatic dash substitution
+defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic period substitution
+defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+
+# Disable automatic quote substitution
+defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable automatic spelling correction
+defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable automatic text completion collapsed
+defaults write -g NSAutomaticTextCompletionCollapsed -bool false
+
+# Disable automatic text completion
+defaults write -g NSAutomaticTextCompletionEnabled -bool false
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Remove the Dock autohide delay
+defaults write com.apple.dock autohide-delay -float 0
+
+# Remove the Dock autohide animation
+defaults write com.apple.dock autohide-time-modifier -float 0
+
+# Put the Dock on the left on the screen
+defaults write com.apple.dock orientation -string left
+
+# Don't show recent applications in Dock
+defaults write com.apple.dock show-recents -bool false
+
+# Set the icon size of Dock items to 24 px
+defaults write com.apple.dock tilesize -int 24
+
+# Show pathbar in the bottom of the Finder windows
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Set menubar digital clock format
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
+defaults write com.apple.menuextra.clock Show24Hour -bool true
+defaults write com.apple.menuextra.clock ShowDate -int 2
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool false
+defaults write com.apple.menuextra.clock ShowSeconds -bool false
+
+# Save screenshots in png format
+defaults write com.apple.screencapture type -string png
+
+# Set tracking speed for the trackpad
+defaults write com.apple.trackpad.scaling -float 0.6875
+
+killall Dock
+killall Finder
+killall SystemUIServer
