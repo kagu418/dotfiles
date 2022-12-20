@@ -43,6 +43,11 @@ require("packer").startup({
         ts_update()
       end,
     })
+    use({
+      "nvim-treesitter/playground",
+      requires = { "nvim-treesitter/nvim-treesitter" },
+      cmd = "TSPlaygroundToggle",
+    })
 
     -- language server protocol
     use({ "neovim/nvim-lspconfig" })
