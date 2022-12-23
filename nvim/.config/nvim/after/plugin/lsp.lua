@@ -28,11 +28,7 @@ local function on_attach(client, bufnr)
   nnoremap("gd", telescope.lsp_definitions)
   nnoremap("gD", vim.lsp.buf.declaration)
   nnoremap("gT", vim.lsp.buf.type_definition)
-  nnoremap("K", function()
-    vim.diagnostic.disable(bufnr)
-    vim.lsp.buf.hover()
-    vim.diagnostic.enable(bufnr)
-  end)
+  nnoremap("K", vim.lsp.buf.hover)
   nnoremap("<space>gI", vim.lsp.buf.implementation)
   nnoremap("<space>cr", vim.lsp.buf.rename)
   nnoremap("<space>ca", vim.lsp.buf.code_action)
@@ -48,6 +44,11 @@ local function on_attach(client, bufnr)
     group = lsp_diagnostic_open,
     buffer = bufnr,
     callback = function()
+      for _, window in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if vim.api.nvim_win_get_config(window).relative ~= "" then
+          return
+        end
+      end
       local opts = {
         focusable = false,
         close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
