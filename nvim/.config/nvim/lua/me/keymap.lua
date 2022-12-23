@@ -9,7 +9,7 @@ local function bind(mode, init)
     opts = vim.tbl_extend("force", init, opts or {})
     vim.keymap.set(mode, lhs, rhs, opts)
   end
- end
+end
 
 M.nmap = bind("n", { noremap = false })
 M.inoremap = bind("i")
