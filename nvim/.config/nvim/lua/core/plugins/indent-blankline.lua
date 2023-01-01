@@ -1,6 +1,7 @@
-if not pcall(require, "indent_blankline") then
-  return
-end
+local M = {
+  "lukas-reineke/indent-blankline.nvim",
+  event = "BufReadPre",
+}
 
 local char_colors = {
   "#c4a7e7", -- iris
@@ -26,10 +27,16 @@ local function hl_list(name, colors)
   return list
 end
 
-require("indent_blankline").setup({
-  space_char_blankline = " ",
-  show_current_context = true,
-  show_current_context_start = true,
-  char_highlight_list = hl_list("IndentBlanklineIndent", char_colors),
-  context_highlight_list = hl_list("IndentBlanklineContext", context_colors),
-})
+local function config()
+  require("indent_blankline").setup({
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+    char_highlight_list = hl_list("IndentBlanklineIndent", char_colors),
+    context_highlight_list = hl_list("IndentBlanklineContext", context_colors),
+  })
+end
+
+M.config = config
+
+return M

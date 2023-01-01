@@ -1,12 +1,8 @@
-if not pcall(require, "telescope") then
-  return
-end
+local M = {}
 
 local builtin = require("telescope.builtin")
 local themes = require("telescope.themes")
 local lsputil = require("lspconfig.util")
-
-local M = {}
 
 local function all_files()
   builtin.find_files({
@@ -95,42 +91,6 @@ local function installed_plugins()
   })
 end
 
-local function lsp_definitions()
-  builtin.lsp_definitions({
-    layout_strategy = "vertical",
-    layout_config = {
-      prompt_position = "top",
-    },
-    sorting_strategy = "ascending",
-    ignore_filename = false,
-    show_line = false,
-  })
-end
-
-local function lsp_implementations()
-  builtin.lsp_implementations({
-    layout_strategy = "vertical",
-    layout_config = {
-      prompt_position = "top",
-    },
-    sorting_strategy = "ascending",
-    ignore_filename = false,
-    show_line = false,
-  })
-end
-
-local function lsp_references()
-  builtin.lsp_references({
-    layout_strategy = "vertical",
-    layout_config = {
-      prompt_position = "top",
-    },
-    sorting_strategy = "ascending",
-    ignore_filename = false,
-    show_line = false,
-  })
-end
-
 M.buffers = builtin.buffers
 M.treesitter = builtin.treesitter
 M.all_files = all_files
@@ -145,8 +105,5 @@ M.grep_prompt = grep_prompt
 M.grep_cword = grep_cword
 M.vim_options = vim_options
 M.installed_plugins = installed_plugins
-M.lsp_definitions = lsp_definitions
-M.lsp_implementations = lsp_implementations
-M.lsp_references = lsp_references
 
 return M
