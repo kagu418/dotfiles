@@ -4,9 +4,10 @@ local M = {
   autoformat = true,
 }
 
+local lsp_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
+
 local function setup(client, bufnr)
   if client.supports_method("textDocument/formatting") then
-    local lsp_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
     vim.api.nvim_clear_autocmds({ group = lsp_formatting, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = lsp_formatting,
