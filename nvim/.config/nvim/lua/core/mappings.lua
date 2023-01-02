@@ -37,3 +37,4 @@ tnoremap("<A-k>", "<C-\\><C-n><C-w>k")
 tnoremap("<A-l>", "<C-\\><C-n><C-w>l")
 
 nnoremap("<leader>u", vim.cmd.UndotreeToggle)
+nnoremap("<leader>t", require("core.plugins.null-ls.formatting").toggle)
