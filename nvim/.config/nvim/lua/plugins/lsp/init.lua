@@ -11,7 +11,7 @@ local M = {
 }
 
 local function on_attach(client, bufnr)
-  require("core.plugins.lsp.mappings").setup()
+  require("plugins.lsp.mappings").setup()
 
   local lsp_diagnostic_open = vim.api.nvim_create_augroup("LspDiagnosticOpen", {})
   vim.api.nvim_clear_autocmds({
@@ -61,7 +61,7 @@ local function on_attach(client, bufnr)
 end
 
 local function config()
-  require("core.plugins.lsp.diagnostic").setup()
+  require("plugins.lsp.diagnostic").setup()
 
   local configs = {
     gopls = {

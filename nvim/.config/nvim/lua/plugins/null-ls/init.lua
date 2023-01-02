@@ -10,7 +10,7 @@ local function config()
   local null_ls = require("null-ls")
 
   null_ls.setup({
-    on_attach = require("core.plugins.null-ls.formatting").setup,
+    on_attach = require("plugins.null-ls.formatting").setup,
   })
 
   local code_actions = null_ls.builtins.code_actions
