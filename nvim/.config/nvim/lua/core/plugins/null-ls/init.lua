@@ -7,29 +7,10 @@ local M = {
 }
 
 local function config()
-  local lsp_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
-  local function on_attach(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = lsp_formatting, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = lsp_formatting,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({
-            bufnr = bufnr,
-            filter = function()
-              return client.name == "null-ls"
-            end,
-          })
-        end,
-      })
-    end
-  end
-
   local null_ls = require("null-ls")
 
   null_ls.setup({
-    on_attach = on_attach,
+   on_attach = require('core.plugins.null-ls.formatting').setup
   })
 
   local code_actions = null_ls.builtins.code_actions
@@ -93,3 +74,4 @@ end
 M.config = config
 
 return M
+
