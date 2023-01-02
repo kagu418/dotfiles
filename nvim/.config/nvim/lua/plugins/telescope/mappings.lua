@@ -1,7 +1,7 @@
 local M = {}
 
 local function setup()
-  local fn = require("core.plugins.telescope.function")
+  local fn = require("plugins.telescope.function")
   local nmap = require("core.keymap").nmap
 
   nmap("<space>fd", fn.fd)

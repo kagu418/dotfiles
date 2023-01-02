@@ -16,7 +16,7 @@ local function config()
   local telescope = require("telescope")
   local actions = require("telescope.actions")
   local previewers = require("telescope.previewers")
-  require("core.plugins.telescope.mappings").setup()
+  require("plugins.telescope.mappings").setup()
 
   telescope.setup({
     defaults = {
