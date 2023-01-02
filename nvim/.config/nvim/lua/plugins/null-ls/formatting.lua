@@ -1,3 +1,5 @@
+local util = require("util")
+
 local M = {
   autoformat = true,
 }
@@ -26,9 +28,9 @@ end
 local function toggle()
   M.autoformat = not M.autoformat
   if M.autoformat then
-    vim.notify("enabled format on save", vim.log.levels.INFO, { title = "Formatting" })
+    util.info("enabled format on save")
   else
-    vim.notify("disabled format on save", vim.log.levels.INFO, { title = "Formatting" })
+    util.info("disabled format on save")
   end
 end
 
