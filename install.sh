@@ -4,12 +4,18 @@ DOTFILES_DIR="$HOME/.dotfiles"
 BREW_PREFIX="/opt/homebrew"
 REPO="https://github.com/kagu418/dotfiles.git"
 
+if [[ -d "$DOTFILES_DIR" ]]; then
+  printf "dotfiles already exists on \`%s\`.\n" "$DOTFILES_DIR" >&2
+  exit 1
+fi
+
 if ! [[ -d "$(xcode-select -p)" ]]; then
   printf "You must install Command Line Tools before running this shell script.\n"
   read -rp "Do you want to install Command Line Tools now? [y/N] "
   if [[ "${REPLY}" == [yY]* ]]; then
     xcode-select --install
     printf "Installing Command Line Tools...\n"
+    printf "After installation is complete, run this again.\n"
     exit 1
   else
     printf "Use \`xcode-select --install\`.\n"
@@ -21,11 +27,6 @@ if ( hash brew 2>/dev/null ); then
   printf "Skipping install Homebrew. It is already installed.\n"
 else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-if [[ -d "$DOTFILES_DIR" ]]; then
-  printf "dotfiles already exists on \`%s\`.\n" "$DOTFILES_DIR" >&2
-  exit 1
 fi
 
 git clone --recursive "$REPO" "$DOTFILES_DIR"
