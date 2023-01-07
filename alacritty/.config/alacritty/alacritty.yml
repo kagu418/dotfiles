@@ -28,6 +28,9 @@ font:
 
 draw_bold_text_with_bright_colors: true
 
+import:
+  - ~/.config/alacritty/themes/rose-pine-moon.yml
+
 key_bindings:
   - { key: A,     mods: Alt,     chars: "\x1ba" }
   - { key: B,     mods: Alt,     chars: "\x1bb" }
