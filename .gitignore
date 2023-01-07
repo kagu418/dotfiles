@@ -1,4 +1,5 @@
 .DS_Store
+alacritty/.config/alacritty/themes/*
 brew/.config/brew/Brewfile.lock.json
 karabiner/.config/karabiner/automatic_backups
 nvim/.config/nvim/plugin/packer_compiled.lua
