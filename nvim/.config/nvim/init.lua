@@ -1,4 +1,4 @@
 require("core.autocmd")
 require("core.mappings")
-require("core.set")
+require("core.options")
 require("core.lazy")

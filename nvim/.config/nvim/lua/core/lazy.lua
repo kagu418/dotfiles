@@ -15,9 +15,6 @@ require("lazy").setup("plugins", {
   defaults = {
     lazy = true,
   },
-  dev = {
-    path = "~/ghq/github.com/kagu418",
-  },
   install = {
     colorscheme = {
       "rose-pine",
@@ -27,6 +24,18 @@ require("lazy").setup("plugins", {
   performance = {
     cache = {
       enabled = true,
+    },
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "rplugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
     },
   },
 })

@@ -92,33 +92,4 @@ return {
     event = "BufReadPre",
     config = true,
   },
-  {
-    "kagu418/transparent.nvim",
-    config = {
-      enable = false,
-      groups = {
-        "Normal",
-        "NonText",
-        "LineNr",
-        "CursorLineNr",
-        "SpecialKey",
-        "Folded",
-        "EndOfBuffer",
-        "SignColumn",
-        "DiagnosticSignError",
-        "DiagnosticSignWarn",
-        "DiagnosticSignInfo",
-        "DiagnosticSignHint",
-        "GitSignsAdd",
-        "GitSignsChange",
-        "GitSignsDelete",
-      },
-    },
-    cmd = {
-      "TransparentOff",
-      "TransparentOn",
-      "TransparentToggle",
-    },
-    dev = true,
-  },
 }
