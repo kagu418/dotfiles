@@ -1,0 +1,45 @@
+return {
+  {
+    "rose-pine/neovim",
+    lazy = false,
+    name = "rose-pine",
+    priority = 1000,
+    opts = {
+      dark_variant = "moon",
+      highlight_groups = {
+        NavicIconsArray = { fg = "subtle" },
+        NavicIconsBoolean = { fg = "subtle" },
+        NavicIconsClass = { fg = "subtle" },
+        NavicIconsConstant = { fg = "subtle" },
+        NavicIconsConstructor = { fg = "subtle" },
+        NavicIconsEnum = { fg = "subtle" },
+        NavicIconsEnumMember = { fg = "subtle" },
+        NavicIconsEvent = { fg = "subtle" },
+        NavicIconsField = { fg = "subtle" },
+        NavicIconsFile = { fg = "subtle" },
+        NavicIconsFunction = { fg = "subtle" },
+        NavicIconsInterface = { fg = "subtle" },
+        NavicIconsKey = { fg = "subtle" },
+        NavicIconsMethod = { fg = "subtle" },
+        NavicIconsModule = { fg = "subtle" },
+        NavicIconsNamespace = { fg = "subtle" },
+        NavicIconsNull = { fg = "subtle" },
+        NavicIconsNumber = { fg = "subtle" },
+        NavicIconsObject = { fg = "subtle" },
+        NavicIconsOperator = { fg = "subtle" },
+        NavicIconsPackage = { fg = "subtle" },
+        NavicIconsProperty = { fg = "subtle" },
+        NavicIconsString = { fg = "subtle" },
+        NavicIconsStruct = { fg = "subtle" },
+        NavicIconsTypeParameter = { fg = "subtle" },
+        NavicIconsVariable = { fg = "subtle" },
+        NavicSeparator = { fg = "text" },
+        NavicText = { fg = "text" },
+      },
+    },
+    config = function(_, opts)
+      require("rose-pine").setup(opts)
+      vim.cmd.colorscheme("rose-pine")
+    end,
+  },
+}

@@ -41,6 +41,10 @@ local function on_attach(client, bufnr)
     end,
   })
 
+  if client.server_capabilities.documentSymbolProvider then
+    require("nvim-navic").attach(client, bufnr)
+  end
+
   if client.server_capabilities.documentHighlightProvider then
     local lsp_document_highlight = vim.api.nvim_create_augroup("LspDocumentHighlight", {})
     vim.api.nvim_clear_autocmds({

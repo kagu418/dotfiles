@@ -12,6 +12,11 @@ local function config()
           path = 1,
           shorting_target = 40,
         },
+        -- stylua: ignore
+        {
+          function() return require("nvim-navic").get_location() end,
+          cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+        },
       },
       lualine_x = {
         "encoding",
