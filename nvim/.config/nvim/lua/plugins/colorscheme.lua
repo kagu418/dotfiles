@@ -7,6 +7,9 @@ return {
     opts = {
       dark_variant = "moon",
       highlight_groups = {
+        IlluminatedWordText = { bg = "highlight_med" },
+        IlluminatedWordRead = { bg = "highlight_med" },
+        IlluminatedWordWrite = { bg = "highlight_med" },
         NavicIconsArray = { fg = "subtle" },
         NavicIconsBoolean = { fg = "subtle" },
         NavicIconsClass = { fg = "subtle" },

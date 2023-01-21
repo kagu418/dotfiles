@@ -44,24 +44,6 @@ local function on_attach(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     require("nvim-navic").attach(client, bufnr)
   end
-
-  if client.server_capabilities.documentHighlightProvider then
-    local lsp_document_highlight = vim.api.nvim_create_augroup("LspDocumentHighlight", {})
-    vim.api.nvim_clear_autocmds({
-      group = lsp_document_highlight,
-      buffer = bufnr,
-    })
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      group = lsp_document_highlight,
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-    })
-    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-      group = lsp_document_highlight,
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-    })
-  end
 end
 
 local function config()
