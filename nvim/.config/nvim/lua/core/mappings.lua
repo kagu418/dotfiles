@@ -30,7 +30,10 @@ nnoremap("<C-p>", ":cprev<CR>zz")
 vnoremap("J", ":m '>+1<CR>gv=gv")
 vnoremap("K", ":m '<-2<CR>gv=gv")
 
-tnoremap("<Leader><Esc>", "<C-\\><C-n>")
+nnoremap("<S-h>", ":tabprev<CR>")
+nnoremap("<S-l>", ":tabnext<CR>")
+
+tnoremap("<leader><Esc>", "<C-\\><C-n>")
 tnoremap("<A-h>", "<C-\\><C-n><C-w>h")
 tnoremap("<A-j>", "<C-\\><C-n><C-w>j")
 tnoremap("<A-k>", "<C-\\><C-n><C-w>k")
