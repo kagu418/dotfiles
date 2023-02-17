@@ -66,7 +66,7 @@ local function config()
         },
       },
     },
-    sumneko_lua = {
+    lua_ls = {
       on_attach = function(client, bufnr)
         on_attach(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
@@ -135,7 +135,7 @@ local function config()
       "html",
       "intelephense",
       "jsonls",
-      "sumneko_lua",
+      "lua_ls",
       "tsserver",
       "vimls",
       "yamlls",
