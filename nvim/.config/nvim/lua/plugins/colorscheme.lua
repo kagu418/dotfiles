@@ -38,6 +38,12 @@ return {
         NavicIconsVariable = { fg = "subtle" },
         NavicSeparator = { fg = "text" },
         NavicText = { fg = "text" },
+        IndentBlanklineIndent1 = { fg = "iris" },
+        IndentBlanklineIndent2 = { fg = "foam" },
+        IndentBlanklineIndent3 = { fg = "rose" },
+        IndentBlanklineIndent4 = { fg = "gold" },
+        IndentBlanklineIndent5 = { fg = "pine" },
+        IndentBlanklineContext = { fg = "highlight_med" },
       },
     },
     config = function(_, opts)
