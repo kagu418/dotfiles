@@ -1,35 +1,92 @@
-local M = {
+return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
     },
-    { "nvim-telescope/telescope-ui-select.nvim" },
   },
+  -- stylua: ignore
   keys = {
-    { "<space>fd" },
+    {
+      "<space>fb", function() require("telescope.builtin").buffers() end,
+    },
+    {
+      "<space>fd",
+      function()
+        local picker = "find_files"
+        local opts = {
+          sorting_strategy = "descending",
+          scroll_strategy = "cycle",
+        }
+        if vim.loop.fs_stat(vim.loop.cwd() .. "/.git") then
+          picker = "git_files"
+          opts.show_untracked = true
+        end
+        require("telescope.builtin")[picker](opts)
+      end,
+    },
+    {
+      "<space>ff",
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+          winblend = 10,
+          border = true,
+          previewer = false,
+          shorten_path = false,
+        }))
+      end,
+    },
+    {
+      "<space>fw", function() require("telescope.builtin").grep_string() end,
+    },
+    {
+      "<space>gc", function() require("telescope.builtin").git_commits() end,
+    },
+    {
+      "<space>gs", function() require("telescope.builtin").git_status() end,
+    },
+    {
+      "<space>gp",
+      function()
+        require("telescope.builtin").grep_string({
+          path_display = { "shorten" },
+          search = vim.fn.input({ prompt = "grep for > " }),
+        })
+      end,
+    },
+    {
+      "<space>so",
+      function()
+        require("telescope.builtin").vim_options({
+          layout_config = {
+            width = 0.5,
+          },
+          sorting_strategy = "ascending",
+        })
+      end,
+    },
+    {
+      "<space>wt", function() require("telescope.builtin").treesitter() end,
+    },
   },
-}
-
-local function config()
-  local telescope = require("telescope")
-  local actions = require("telescope.actions")
-  local previewers = require("telescope.previewers")
-  require("plugins.telescope.mappings").setup()
-
-  telescope.setup({
+  opts = {
     defaults = {
       mappings = {
         i = {
           ["<C-x>"] = false,
-          ["<C-s>"] = actions.select_horizontal,
-          ["<C-v>"] = actions.select_vertical,
-          ["<C-d>"] = actions.delete_buffer,
+          ["<C-s>"] = function(...)
+            require("telescope.actions").select_horizontal(...)
+          end,
+          ["<C-v>"] = function(...)
+            require("telescope.actions").select_vertical(...)
+          end,
+          ["<C-d>"] = function(...)
+            require("telescope.actions").delete_buffer(...)
+          end,
         },
       },
     },
-    pickers = {},
     extensions = {
       fzf = {
         fuzzy = true,
@@ -37,18 +94,19 @@ local function config()
         override_file_sorter = true,
         case_mode = "smart_case",
       },
-      ["ui-select"] = {
-        require("telescope.themes").get_dropdown({}),
-      },
     },
-    file_previewer = previewers.vim_buffer_cat.new,
-    grep_previewer = previewers.vim_buffer_vimgrep.new,
-    qflist_previewer = previewers.vim_buffer_qflist.new,
-  })
-  telescope.load_extension("fzf")
-  telescope.load_extension("ui-select")
-end
-
-M.config = config
-
-return M
+    file_previewer = function(...)
+      require("telescope.previewers").vim_buffer_cat.new(...)
+    end,
+    grep_previewer = function(...)
+      require("telescope.previewers").vim_buffer_vimgrep.new(...)
+    end,
+    qflist_previewer = function(...)
+      require("telescope.previewers").vim_buffer_qflist.new(...)
+    end,
+  },
+  config = function(_, opts)
+    require("telescope").setup(opts)
+    require("telescope").load_extension("fzf")
+  end,
+}
