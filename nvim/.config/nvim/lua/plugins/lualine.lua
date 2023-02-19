@@ -1,10 +1,7 @@
-local M = {
+return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
-}
-
-local function config()
-  require("lualine").setup({
+  opts = {
     sections = {
       lualine_c = {
         {
@@ -35,9 +32,5 @@ local function config()
         },
       },
     },
-  })
-end
-
-M.config = config
-
-return M
+  },
+}

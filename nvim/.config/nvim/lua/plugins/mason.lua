@@ -1,9 +1,6 @@
-local M = {
+return {
   "williamboman/mason.nvim",
-}
-
-local function config()
-  require("mason").setup({
+  opts = {
     ui = {
       icons = {
         package_installed = "✓",
@@ -11,9 +8,5 @@ local function config()
         package_uninstalled = "✗",
       },
     },
-  })
-end
-
-M.config = config
-
-return M
+  },
+}

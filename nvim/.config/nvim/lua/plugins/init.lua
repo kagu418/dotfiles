@@ -33,7 +33,7 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    config = {
+    opts = {
       text = {
         spinner = "moon",
       },

@@ -1,4 +1,4 @@
-local M = {
+return {
   "nvim-treesitter/nvim-treesitter",
   event = "BufReadPost",
   build = function()
@@ -7,10 +7,7 @@ local M = {
     })
     ts_update()
   end,
-}
-
-local function config()
-  require("nvim-treesitter.configs").setup({
+  opts = {
     ensure_installed = {
       "go",
       "html",
@@ -50,9 +47,5 @@ local function config()
         show_help = "?",
       },
     },
-  })
-end
-
-M.config = config
-
-return M
+  },
+}
