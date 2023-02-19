@@ -10,7 +10,7 @@ local M = {
   },
 }
 
-local function on_attach(client, bufnr)
+local function on_attach(_, bufnr)
   require("plugins.lsp.mappings").setup()
 
   local lsp_diagnostic_open = vim.api.nvim_create_augroup("LspDiagnosticOpen", {})
@@ -40,10 +40,6 @@ local function on_attach(client, bufnr)
       vim.diagnostic.open_float(opts)
     end,
   })
-
-  if client.server_capabilities.documentSymbolProvider then
-    require("nvim-navic").attach(client, bufnr)
-  end
 end
 
 local function config()
