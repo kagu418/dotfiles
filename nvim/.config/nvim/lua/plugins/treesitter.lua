@@ -1,12 +1,10 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = "BufReadPost",
-  build = function()
-    local ts_update = require("nvim-treesitter.install").update({
-      with_sync = true,
-    })
-    ts_update()
-  end,
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
+  keys = {
+    { "<C-Space>", desc = "Increment selection" },
+  },
   opts = {
     ensure_installed = {
       "go",
@@ -29,6 +27,13 @@ return {
       enable = true,
       additional_vim_regex_highlighting = false,
     },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<C-Space>",
+        node_incremental = "<C-Space>",
+      },
+    },
     playground = {
       enable = true,
       disable = {},
@@ -48,4 +53,7 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
