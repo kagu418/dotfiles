@@ -105,6 +105,24 @@ return {
     end,
   },
   {
+    "petertriho/nvim-scrollbar",
+    event = "BufReadPost",
+    opts = function()
+      local palette = require("rose-pine.palette")
+      return {
+        handle = { blend = 0, color = palette.highlight_high },
+        marks = {
+          Search = { color = palette.rose },
+          Error = { color = palette.love },
+          Warn = { color = palette.gold },
+          Info = { color = palette.foam },
+          Hint = { color = palette.iris },
+          Misc = { color = palette.pine },
+        },
+      }
+    end,
+  },
+  {
     "nvim-tree/nvim-web-devicons",
     config = true,
   },
