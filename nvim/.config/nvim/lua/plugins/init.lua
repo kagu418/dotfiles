@@ -1,10 +1,6 @@
 return {
   { "nvim-lua/plenary.nvim" },
   {
-    "nvim-tree/nvim-web-devicons",
-    config = true,
-  },
-  {
     "nvim-treesitter/playground",
     cmd = "TSPlaygroundToggle",
   },
