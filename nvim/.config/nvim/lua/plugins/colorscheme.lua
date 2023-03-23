@@ -10,6 +10,8 @@ return {
         IlluminatedWordText = { bg = "highlight_med" },
         IlluminatedWordRead = { bg = "highlight_med" },
         IlluminatedWordWrite = { bg = "highlight_med" },
+        InclineNormal = { fg = "rose" },
+        InclineNormalNC = { fg = "text" },
         IndentBlanklineIndent1 = { fg = "iris" },
         IndentBlanklineIndent2 = { fg = "foam" },
         IndentBlanklineIndent3 = { fg = "rose" },
