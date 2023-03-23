@@ -107,8 +107,14 @@ return {
   {
     "petertriho/nvim-scrollbar",
     event = "BufReadPost",
+    dependencies = {
+      "kevinhwang91/nvim-hlslens",
+    },
     opts = function()
       local palette = require("rose-pine.palette")
+      require("scrollbar.handlers.search").setup({
+        override_lens = function() end,
+      })
       return {
         handle = { blend = 0, color = palette.highlight_high },
         marks = {
