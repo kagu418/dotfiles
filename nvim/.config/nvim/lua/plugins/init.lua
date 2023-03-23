@@ -18,7 +18,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    cmd = { "G", "Git", "GBrowse" },
+    event = "CmdLineEnter",
     dependencies = {
       "tpope/vim-rhubarb",
     },
