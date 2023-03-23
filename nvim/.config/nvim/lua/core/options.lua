@@ -18,7 +18,7 @@ vim.opt.clipboard:append({ "unnamedplus" })
 vim.opt.cmdheight = 1
 vim.opt.cursorline = true
 vim.opt.expandtab = true
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.inccommand = "split"
 vim.opt.incsearch = true
 vim.opt.joinspaces = false
