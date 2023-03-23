@@ -1,10 +1,6 @@
 return {
   { "nvim-lua/plenary.nvim" },
   {
-    "nvim-treesitter/playground",
-    cmd = "TSPlaygroundToggle",
-  },
-  {
     "Wansmer/treesj",
     config = true,
     keys = {
