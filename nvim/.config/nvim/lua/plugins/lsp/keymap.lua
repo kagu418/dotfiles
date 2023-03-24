@@ -1,9 +1,11 @@
 local M = {}
 
-local function setup()
+local function on_attach(_, bufnr)
   local keymap = require("core.keymap")
-  local inoremap = keymap.inoremap
-  local nnoremap = keymap.nnoremap
+  -- stylua: ignore
+  local inoremap = function(lhs, rhs) return keymap.inoremap(lhs, rhs, { buffer = bufnr }) end
+  -- stylua: ignore
+  local nnoremap = function(lhs, rhs) return keymap.nnoremap(lhs, rhs, { buffer = bufnr }) end
 
   local opts = {
     layout_strategy = "vertical",
@@ -33,6 +35,6 @@ local function setup()
   end)
 end
 
-M.setup = setup
+M.on_attach = on_attach
 
 return M

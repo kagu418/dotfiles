@@ -1,157 +1,142 @@
-local M = {
-  "neovim/nvim-lspconfig",
-  event = "BufReadPre",
-  dependencies = {
-    { "hrsh7th/cmp-nvim-lsp" },
-    { "jose-elias-alvarez/typescript.nvim" },
-    { "folke/neodev.nvim", config = true },
-    { "ray-x/lsp_signature.nvim" },
-    { "williamboman/mason-lspconfig.nvim" },
-  },
-}
-
-local function on_attach(_, bufnr)
-  require("plugins.lsp.mappings").setup()
-
-  local lsp_diagnostic_open = vim.api.nvim_create_augroup("LspDiagnosticOpen", {})
-  vim.api.nvim_clear_autocmds({
-    group = lsp_diagnostic_open,
-    buffer = bufnr,
-  })
-  vim.api.nvim_create_autocmd({ "CursorHold" }, {
-    group = lsp_diagnostic_open,
-    buffer = bufnr,
-    callback = function()
-      for _, window in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-        if vim.api.nvim_win_get_config(window).relative ~= "" then
-          return
-        end
-      end
-      local opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = "rounded",
-        source = "always",
-        prefix = function(_, i, total)
-          return total <= 1 and " " or string.format(" %d. ", i)
+return {
+  {
+    "neovim/nvim-lspconfig",
+    event = "BufReadPre",
+    config = function()
+      require("plugins.lsp.diagnostic").setup()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("LspConfig", {}),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local bufnr = args.buf
+          require("plugins.lsp.keymap").on_attach(client, bufnr)
+          require("plugins.lsp.autocmd").on_attach(client, bufnr)
         end,
-        scope = "cursor",
-      }
-      vim.diagnostic.open_float(opts)
+      })
     end,
-  })
-end
-
-local function config()
-  require("plugins.lsp.diagnostic").setup()
-
-  local configs = {
-    gopls = {
-      on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-        require("lsp_signature").on_attach({
-          hint_prefix = " ",
-        }, bufnr)
-      end,
-      settings = {
-        gopls = {
-          analyses = {
-            unusedparams = true,
-          },
-          staticcheck = true,
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
         },
       },
     },
-    lua_ls = {
-      on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-      end,
-      settings = {
-        Lua = {
-          runtime = {
-            version = "LuaJIT",
-            path = vim.split(package.path, ";"),
-          },
-          completion = {
-            callSnippet = "Replace",
-            keywordSnippet = "Disable",
-          },
-          diagnostics = {
-            enable = true,
-            globals = {
-              "vim",
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    event = "BufReadPre",
+    dependencies = {
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "jose-elias-alvarez/typescript.nvim" },
+      { "folke/neodev.nvim", config = true },
+      { "ray-x/lsp_signature.nvim" },
+    },
+    opts = {
+      ensure_installed = {
+        "cssls",
+        "eslint",
+        "gopls",
+        "html",
+        "intelephense",
+        "jsonls",
+        "lua_ls",
+        "tsserver",
+        "vimls",
+        "yamlls",
+      },
+    },
+    config = function(_, opts)
+      require("mason-lspconfig").setup(opts)
+
+      local configs = {
+        gopls = {
+          on_attach = function(_, bufnr)
+            require("lsp_signature").on_attach({
+              hint_prefix = " ",
+            }, bufnr)
+          end,
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
             },
           },
-          workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
-            checkThirdParty = false,
-          },
-          telemetry = {
-            enable = false,
+        },
+        lua_ls = {
+          on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+          settings = {
+            Lua = {
+              runtime = {
+                version = "LuaJIT",
+                path = vim.split(package.path, ";"),
+              },
+              completion = {
+                callSnippet = "Replace",
+                keywordSnippet = "Disable",
+              },
+              diagnostics = {
+                enable = true,
+                globals = {
+                  "vim",
+                },
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
           },
         },
-      },
-    },
-    tsserver = {
-      cmd = { "typescript-language-server", "--stdio" },
-      on_attach = function(client)
-        on_attach(client)
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-      end,
-      filetypes = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-      },
-    },
-    bufls = {
-      cmd = { "bufls", "serve" },
-      whitelist = "proto",
-    },
-  }
+        tsserver = {
+          cmd = { "typescript-language-server", "--stdio" },
+          on_attach = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+          },
+        },
+        bufls = {
+          cmd = { "bufls", "serve" },
+          whitelist = "protocol",
+        },
+      }
 
-  local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-  local options = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local options = { capabilities = capabilities }
 
-  local lspconfig = require("lspconfig")
-  require("mason-lspconfig").setup({
-    ensure_installed = {
-      "cssls",
-      "eslint",
-      "gopls",
-      "html",
-      "intelephense",
-      "jsonls",
-      "lua_ls",
-      "tsserver",
-      "vimls",
-      "yamlls",
-    },
-  })
-  require("mason-lspconfig").setup_handlers({
-    function(server)
-      local server_config = vim.tbl_deep_extend("force", {}, options, configs[server] or {})
-
-      if server == "tsserver" then
-        require("typescript").setup({
-          server = server_config,
-        })
-      else
-        lspconfig[server].setup(server_config)
-      end
+      local lspconfig = require("lspconfig")
+      require("mason-lspconfig").setup_handlers({
+        function(server)
+          local server_config = vim.tbl_deep_extend("force", options, configs[server] or {})
+          if server == "tsserver" then
+            require("typescript").setup({
+              server = server_config,
+            })
+          else
+            lspconfig[server].setup(server_config)
+          end
+        end,
+      })
     end,
-  })
-end
-
-M.config = config
-
-return M
+  },
+}
