@@ -9,6 +9,7 @@ return {
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           local bufnr = args.buf
+          require("plugins.lsp.format").on_attach(client, bufnr)
           require("plugins.lsp.keymap").on_attach(client, bufnr)
           require("plugins.lsp.autocmd").on_attach(client, bufnr)
         end,
@@ -52,7 +53,6 @@ return {
     },
     config = function(_, opts)
       require("mason-lspconfig").setup(opts)
-
       local configs = {
         gopls = {
           on_attach = function(_, bufnr)
@@ -138,5 +138,57 @@ return {
         end,
       })
     end,
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    event = "BufReadPre",
+    opts = function()
+      local null_ls = require("null-ls")
+      return {
+        sources = {
+          null_ls.builtins.code_actions.eslint_d.with({
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+            },
+          }),
+          null_ls.builtins.diagnostics.golangci_lint,
+          null_ls.builtins.formatting.goimports,
+          null_ls.builtins.formatting.prettierd.with({
+            filetypes = {
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "json",
+            },
+            extra_filetypes = { "php" },
+            prefer_local = "node_modules/.bin",
+          }),
+          null_ls.builtins.formatting.stylua.with({
+            condition = function(utils)
+              local patterns = {
+                "stylua.toml",
+                ".stylua.toml",
+              }
+              return utils.root_has_file(patterns) or utils.has_file(patterns)
+            end,
+          }),
+        },
+      }
+    end,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    opts = {
+      ensure_installed = {
+        "eslint_d",
+        "goimports",
+        "prettierd",
+        "stylua",
+      },
+    },
   },
 }

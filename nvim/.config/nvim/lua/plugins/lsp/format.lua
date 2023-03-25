@@ -1,16 +1,20 @@
-local util = require("util")
-
 local M = {
   autoformat = true,
 }
 
-local lsp_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
+local function toggle()
+  M.autoformat = not M.autoformat
+  if M.autoformat then
+    vim.notify("enabled format on save", vim.log.levels.INFO)
+  else
+    vim.notify("disabled format on save", vim.log.levels.INFO)
+  end
+end
 
-local function setup(client, bufnr)
+local function on_attach(client, bufnr)
   if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = lsp_formatting, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = lsp_formatting,
+      group = vim.api.nvim_create_augroup(string.format("LspFormat.%d", bufnr), {}),
       buffer = bufnr,
       callback = function()
         if M.autoformat then
@@ -26,16 +30,7 @@ local function setup(client, bufnr)
   end
 end
 
-local function toggle()
-  M.autoformat = not M.autoformat
-  if M.autoformat then
-    util.info("enabled format on save")
-  else
-    util.info("disabled format on save")
-  end
-end
-
-M.setup = setup
 M.toggle = toggle
+M.on_attach = on_attach
 
 return M
