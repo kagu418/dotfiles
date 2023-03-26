@@ -20,7 +20,8 @@ local function on_attach(client, bufnr)
         if M.autoformat then
           vim.lsp.buf.format({
             bufnr = bufnr,
-            filter = function()
+            ---@diagnostic disable-next-line: redefined-local
+            filter = function(client)
               return client.name == "null-ls"
             end,
           })
