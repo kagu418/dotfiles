@@ -11,7 +11,7 @@ return {
           local bufnr = args.buf
           require("plugins.lsp.format").on_attach(client, bufnr)
           require("plugins.lsp.keymap").on_attach(client, bufnr)
-          require("plugins.lsp.autocmd").on_attach(client, bufnr)
+          require("plugins.lsp.diagnostic").on_attach(client, bufnr)
         end,
       })
     end,
