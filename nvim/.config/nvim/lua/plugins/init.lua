@@ -14,7 +14,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    event = "CmdLineEnter",
+    event = "CmdlineEnter",
     dependencies = {
       "tpope/vim-rhubarb",
     },
@@ -78,5 +78,14 @@ return {
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
+  },
+  {
+    "ray-x/go.nvim",
+    dependencies = {
+      "ray-x/guihua.lua",
+    },
+    config = true,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
   },
 }
