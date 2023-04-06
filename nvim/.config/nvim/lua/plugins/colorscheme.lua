@@ -7,6 +7,7 @@ return {
     opts = {
       dark_variant = "moon",
       highlight_groups = {
+        CmpItemKindCopilot = { fg = "foam" },
         IlluminatedWordText = { bg = "highlight_med" },
         IlluminatedWordRead = { bg = "highlight_med" },
         IlluminatedWordWrite = { bg = "highlight_med" },
