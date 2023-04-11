@@ -40,7 +40,11 @@ return {
   },
   {
     "numToStr/Comment.nvim",
-    config = true,
+    opts = function()
+      return {
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      }
+    end,
     keys = {
       { "gcc", vim.cmd.comment_toggle_linewise_count },
       { "gc", vim.cmd.comment_toggle_linewise_visual, mode = "v" },

@@ -53,6 +53,10 @@ return {
           show_help = "?",
         },
       },
+      context_commentstring = {
+        enable = true,
+        enable_autocmd = false,
+      },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
@@ -62,4 +66,5 @@ return {
     "nvim-treesitter/playground",
     cmd = "TSPlaygroundToggle",
   },
+  { "JoosepAlviste/nvim-ts-context-commentstring" },
 }
