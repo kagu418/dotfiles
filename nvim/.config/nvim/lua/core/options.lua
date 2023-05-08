@@ -41,6 +41,7 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.tabstop = 4
 vim.opt.termguicolors = true
+vim.opt.undodir = vim.fn.stdpath("state")
 vim.opt.updatetime = 200
 vim.opt.wildoptions = "pum"
 vim.opt.wrap = true
