@@ -1,18 +1,23 @@
-local remove_postspace = vim.api.nvim_create_augroup("RemovePostspace", {})
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = remove_postspace,
+  group = vim.api.nvim_create_augroup("RemovePostspace", {}),
   pattern = "*",
   command = "%s/\\s\\+$//e",
 })
 
-local highlight_on_yank = vim.api.nvim_create_augroup("HighlightOnYank", {})
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = highlight_on_yank,
+  group = vim.api.nvim_create_augroup("HighlightOnYank", {}),
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({
       higroup = "IncSearch",
       timeout = 50,
     })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  group = vim.api.nvim_create_augroup("ResizeSplit", {}),
+  callback = function()
+    vim.cmd("tabdo wincmd =")
   end,
 })
