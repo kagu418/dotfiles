@@ -25,6 +25,8 @@ return {
   },
   {
     "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
     opts = {
       text = {
         spinner = "moon",
@@ -36,7 +38,6 @@ return {
         relative = "editor",
       },
     },
-    event = "BufReadPre",
   },
   {
     "numToStr/Comment.nvim",
