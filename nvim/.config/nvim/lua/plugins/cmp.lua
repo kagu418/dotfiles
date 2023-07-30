@@ -17,6 +17,7 @@ return {
       },
     },
     opts = function()
+      require("lsp-zero.cmp").extend()
       local cmp = require("cmp")
 
       -- stylua: ignore

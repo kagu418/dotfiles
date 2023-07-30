@@ -1,26 +1,15 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    "VonHeikemen/lsp-zero.nvim",
+    branch = "v2.x",
     config = function()
-      require("plugins.lsp.diagnostic").setup()
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-      vim.lsp.handlers["textDocument/signatureHelp"] =
-        vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("LspConfig", {}),
-        callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          local bufnr = args.buf
-          require("plugins.lsp.format").on_attach(client, bufnr)
-          require("plugins.lsp.keymap").on_attach(client, bufnr)
-          require("plugins.lsp.diagnostic").on_attach(client, bufnr)
-        end,
-      })
+      require("lsp-zero").preset({})
     end,
   },
   {
     "williamboman/mason.nvim",
+    cmd = "Mason",
+    build = ":MasonUpdate",
     opts = {
       ui = {
         icons = {
@@ -32,78 +21,170 @@ return {
     },
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    event = "BufReadPre",
+    "neovim/nvim-lspconfig",
+    cmd = "LspInfo",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
-      { "jose-elias-alvarez/typescript.nvim" },
-      { "folke/neodev.nvim", config = true },
-      { "ray-x/lsp_signature.nvim" },
-    },
-    opts = {
-      ensure_installed = {
-        "cssls",
-        "eslint",
-        "gopls",
-        "html",
-        "intelephense",
-        "jsonls",
-        "lua_ls",
-        "tsserver",
-        "vimls",
-        "yamlls",
+      {
+        "williamboman/mason-lspconfig.nvim",
+        opts = {
+          ensure_installed = {
+            "cssls",
+            "dockerls",
+            "docker_compose_language_service",
+            "eslint",
+            "golangci_lint_ls",
+            "gopls",
+            "html",
+            "intelephense",
+            "jsonls",
+            "lua_ls",
+            "rust_analyzer",
+            "tsserver",
+            "vimls",
+            "yamlls",
+          },
+        },
       },
+      { "mason.nvim" },
+      { "jose-elias-alvarez/typescript.nvim" },
+      { "simrat39/rust-tools.nvim" },
+      { "folke/neodev.nvim", opts = {} },
+      { "b0o/SchemaStore.nvim", version = false },
     },
-    config = function(_, opts)
-      require("mason-lspconfig").setup(opts)
-      local configs = {
-        gopls = {
-          on_attach = function(_, bufnr)
-            require("lsp_signature").on_attach({
-              hint_prefix = " ",
-            }, bufnr)
-          end,
-          settings = {
-            gopls = {
-              analyses = {
-                unusedparams = true,
-              },
-              staticcheck = true,
+    config = function()
+      local lsp = require("lsp-zero")
+
+      lsp.on_attach(function(client, bufnr)
+        lsp.default_keymaps({ buffer = bufnr })
+        require("plugins.lsp.keymaps").on_attach(client, bufnr)
+      end)
+
+      lsp.set_sign_icons({
+        error = "",
+        warn = "",
+        hint = "",
+        info = "",
+      })
+
+      lsp.format_on_save({
+        servers = {
+          gopls = { "go" },
+          rust_analyzer = { "rust" },
+          ["null-ls"] = {
+            "lua",
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "json",
+            "html",
+            "php",
+          },
+        },
+      })
+
+      require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls({
+        on_attach = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+              keywordSnippet = "Disable",
             },
           },
         },
-        lua_ls = {
-          on_attach = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          end,
-          settings = {
-            Lua = {
-              runtime = {
-                version = "LuaJIT",
-                path = vim.split(package.path, ";"),
-              },
-              completion = {
-                callSnippet = "Replace",
-                keywordSnippet = "Disable",
-              },
-              diagnostics = {
-                enable = true,
-                globals = {
-                  "vim",
-                },
-              },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-              },
-              telemetry = {
-                enable = false,
-              },
+      }))
+
+      require("lspconfig").gopls.setup({
+        settings = {
+          gopls = {
+            gofumpt = true,
+            codelenses = {
+              gc_details = false,
+              generate = true,
+              regenerate_cgo = true,
+              run_govulncheck = true,
+              test = true,
+              tidy = true,
+              upgrade_dependency = true,
+              vendor = true,
             },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            analyses = {
+              fieldalignment = true,
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            usePlaceholders = true,
+            completeUnimported = true,
+            staticcheck = true,
+            semanticTokens = true,
           },
         },
-        tsserver = {
+      })
+
+      require("lspconfig").golangci_lint_ls.setup({
+        filetypes = { "go", "gomod" },
+      })
+
+      require("lspconfig").jsonls.setup({
+        settings = {
+          json = {
+            format = {
+              enable = true,
+            },
+            validate = {
+              enable = true,
+            },
+            schemas = require("schemastore").json.schemas(),
+          },
+        },
+      })
+
+      require("lspconfig").yamlls.setup({
+        settings = {
+          redhat = {
+            telemetry = {
+              enabled = false,
+            },
+          },
+          yaml = {
+            keyOrdering = false,
+            format = {
+              enable = true,
+            },
+            validate = {
+              enable = true,
+            },
+            schemaStore = {
+              enable = false,
+              url = "",
+            },
+            schemas = require("schemastore").yaml.schemas(),
+          },
+        },
+      })
+
+      lsp.skip_server_setup({ "tsserver", "rust_analyzer" })
+      lsp.setup()
+
+      require("typescript").setup({
+        server = {
           cmd = { "typescript-language-server", "--stdio" },
           on_attach = function(client)
             client.server_capabilities.documentFormattingProvider = false
@@ -118,38 +199,39 @@ return {
             "typescript.tsx",
           },
         },
-        bufls = {
-          cmd = { "bufls", "serve" },
-          whitelist = "protocol",
+      })
+
+      require("rust-tools").setup({
+        server = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              runBuildScripts = true,
+            },
+            checkOnSave = {
+              allFeatures = true,
+              command = "clippy",
+              extraArgs = { "--no-deps" },
+            },
+          },
+          on_attach = function(_, bufnr)
+            vim.keymap.set("n", "<space>ca", require("rust-tools").hover_actions.hover_actions, { buffer = bufnr })
+          end,
         },
-      }
-
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      local options = { capabilities = capabilities }
-
-      local lspconfig = require("lspconfig")
-      require("mason-lspconfig").setup_handlers({
-        function(server)
-          local server_config = vim.tbl_deep_extend("force", options, configs[server] or {})
-          if server == "tsserver" then
-            require("typescript").setup({
-              server = server_config,
-            })
-          else
-            lspconfig[server].setup(server_config)
-          end
-        end,
       })
     end,
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "BufReadPre",
-    opts = function()
-      local null_ls = require("null-ls")
-      return {
+    dependencies = {
+      { "jay-babu/mason-null-ls.nvim" },
+    },
+    config = function()
+      require("null-ls").setup({
         sources = {
-          null_ls.builtins.code_actions.eslint_d.with({
+          require("null-ls").builtins.code_actions.eslint_d.with({
             filetypes = {
               "javascript",
               "javascriptreact",
@@ -157,20 +239,19 @@ return {
               "typescriptreact",
             },
           }),
-          null_ls.builtins.diagnostics.golangci_lint,
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.prettierd.with({
+          require("null-ls").builtins.formatting.prettierd.with({
             filetypes = {
               "javascript",
               "javascriptreact",
               "typescript",
               "typescriptreact",
               "json",
+              "html",
             },
             extra_filetypes = { "php" },
             prefer_local = "node_modules/.bin",
           }),
-          null_ls.builtins.formatting.stylua.with({
+          require("null-ls").builtins.formatting.stylua.with({
             condition = function(utils)
               local patterns = {
                 "stylua.toml",
@@ -179,19 +260,14 @@ return {
               return utils.root_has_file(patterns) or utils.has_file(patterns)
             end,
           }),
+          require("null-ls").builtins.diagnostics.hadolint,
+          require("typescript.extensions.null-ls.code-actions"),
         },
-      }
+      })
+      require("mason-null-ls").setup({
+        ensure_installed = nil,
+        automatic_installation = true,
+      })
     end,
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    opts = {
-      ensure_installed = {
-        "eslint_d",
-        "goimports",
-        "prettierd",
-        "stylua",
-      },
-    },
   },
 }
