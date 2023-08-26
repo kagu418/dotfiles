@@ -3,6 +3,7 @@
 	email = 82737385+kagu418@users.noreply.github.com
 [core]
 	editor = nvim
+	hooksPath = .config/git/hooks
 [init]
 	defaultBranch = main
 [alias]

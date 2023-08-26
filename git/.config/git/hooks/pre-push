@@ -1,0 +1,26 @@
+#!/bin/bash
+
+readonly BRANCHES=(
+  "main"
+  "master"
+  "development"
+  "develop"
+  "dev"
+  "hotfix"
+  "production"
+  "prod"
+  "release"
+  "staging"
+)
+
+current=$(git rev-parse --abbrev-ref HEAD)
+
+for branch in "${BRANCHES[@]}"; do
+  if [[ "${branch}" == "${current}" ]]; then
+    read -rp $'You are about to push to the \e[31;1m'"${current}"$'\e[0m branch. Are you sure? [y/N] '
+    if [[ "${REPLY}" != [yY]* ]]; then
+      printf "Aborted.\n"
+      exit 1
+    fi
+  fi
+done
