@@ -17,7 +17,7 @@ current=$(git rev-parse --abbrev-ref HEAD)
 
 for branch in "${BRANCHES[@]}"; do
   if [[ "${branch}" == "${current}" ]]; then
-    read -rp $'You are about to push to the \e[31;1m'"${current}"$'\e[0m branch. Are you sure? [y/N] ' </dev/tty
+    read -rp $'\e[31;1m'"You are about to push to the ${current} branch. Are you sure?"$'\e[0m [y/N] ' </dev/tty
     if [[ "${REPLY}" != [yY]* ]]; then
       printf "Aborted.\n"
       exit 1
