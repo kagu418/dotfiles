@@ -4,7 +4,7 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt nobeep
 
-export LANG=en_US.UTF8
+export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
