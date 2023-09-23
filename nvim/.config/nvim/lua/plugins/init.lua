@@ -90,7 +90,6 @@ return {
       "ray-x/guihua.lua",
     },
     config = true,
-    event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
   },
 }

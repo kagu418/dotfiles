@@ -1,4 +1,4 @@
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+vim.api.nvim_create_autocmd("BufWritePre", {
   group = vim.api.nvim_create_augroup("RemovePostspace", {}),
   pattern = "*",
   command = "%s/\\s\\+$//e",
@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "VimResized" }, {
+vim.api.nvim_create_autocmd("VimResized", {
   group = vim.api.nvim_create_augroup("ResizeSplit", {}),
   callback = function()
     vim.cmd("tabdo wincmd =")
