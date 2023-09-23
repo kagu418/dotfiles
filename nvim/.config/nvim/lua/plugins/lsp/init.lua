@@ -133,6 +133,11 @@ return {
           golangci_lint_ls = function()
             require("lspconfig").golangci_lint_ls.setup({
               filetypes = { "go", "gomod" },
+              root_dir = require("lspconfig").util.root_pattern(".git", "go.mod"),
+              init_options = {
+                -- stylua: ignore
+                command = { "golangci-lint", "run", "--out-format", "json" },
+              },
             })
           end,
           jsonls = function()
