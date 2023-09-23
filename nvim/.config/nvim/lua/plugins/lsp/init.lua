@@ -1,11 +1,5 @@
 return {
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v2.x",
-    config = function()
-      require("lsp-zero").preset({})
-    end,
-  },
+  { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -26,27 +20,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
-      {
-        "williamboman/mason-lspconfig.nvim",
-        opts = {
-          ensure_installed = {
-            "cssls",
-            "dockerls",
-            "docker_compose_language_service",
-            "eslint",
-            "golangci_lint_ls",
-            "gopls",
-            "html",
-            "intelephense",
-            "jsonls",
-            "lua_ls",
-            "rust_analyzer",
-            "tsserver",
-            "vimls",
-            "yamlls",
-          },
-        },
-      },
+      { "williamboman/mason-lspconfig.nvim" },
       { "mason.nvim" },
       { "jose-elias-alvarez/typescript.nvim" },
       { "simrat39/rust-tools.nvim" },
@@ -54,21 +28,20 @@ return {
       { "b0o/SchemaStore.nvim", version = false },
     },
     config = function()
-      local lsp = require("lsp-zero")
-
-      lsp.on_attach(function(client, bufnr)
-        lsp.default_keymaps({ buffer = bufnr })
+      local lsp_zero = require("lsp-zero")
+      lsp_zero.on_attach(function(client, bufnr)
+        lsp_zero.default_keymaps({ buffer = bufnr })
         require("plugins.lsp.keymaps").on_attach(client, bufnr)
       end)
 
-      lsp.set_sign_icons({
+      lsp_zero.set_sign_icons({
         error = "",
         warn = "",
         hint = "",
         info = "",
       })
 
-      lsp.format_on_save({
+      lsp_zero.format_on_save({
         servers = {
           gopls = { "go" },
           rust_analyzer = { "rust" },
@@ -85,138 +58,167 @@ return {
         },
       })
 
-      require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls({
-        on_attach = function(client)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = "Replace",
-              keywordSnippet = "Disable",
-            },
-          },
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "cssls",
+          "dockerls",
+          "docker_compose_language_service",
+          "eslint",
+          "golangci_lint_ls",
+          "gopls",
+          "html",
+          "intelephense",
+          "jsonls",
+          "lua_ls",
+          "rust_analyzer",
+          "tsserver",
+          "vimls",
+          "yamlls",
         },
-      }))
-
-      require("lspconfig").gopls.setup({
-        settings = {
-          gopls = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            analyses = {
-              fieldalignment = true,
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            usePlaceholders = true,
-            completeUnimported = true,
-            staticcheck = true,
-            semanticTokens = true,
-          },
-        },
-      })
-
-      require("lspconfig").golangci_lint_ls.setup({
-        filetypes = { "go", "gomod" },
-      })
-
-      require("lspconfig").jsonls.setup({
-        settings = {
-          json = {
-            format = {
-              enable = true,
-            },
-            validate = {
-              enable = true,
-            },
-            schemas = require("schemastore").json.schemas(),
-          },
-        },
-      })
-
-      require("lspconfig").yamlls.setup({
-        settings = {
-          redhat = {
-            telemetry = {
-              enabled = false,
-            },
-          },
-          yaml = {
-            keyOrdering = false,
-            format = {
-              enable = true,
-            },
-            validate = {
-              enable = true,
-            },
-            schemaStore = {
-              enable = false,
-              url = "",
-            },
-            schemas = require("schemastore").yaml.schemas(),
-          },
-        },
-      })
-
-      lsp.skip_server_setup({ "tsserver", "rust_analyzer" })
-      lsp.setup()
-
-      require("typescript").setup({
-        server = {
-          cmd = { "typescript-language-server", "--stdio" },
-          on_attach = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
+        handlers = {
+          lua_ls = function()
+            require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls({
+              on_attach = function(client)
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+              end,
+              settings = {
+                Lua = {
+                  completion = {
+                    callSnippet = "Replace",
+                    keywordSnippet = "Disable",
+                  },
+                },
+              },
+            }))
           end,
-          filetypes = {
-            "javascript",
-            "javascriptreact",
-            "javascript.jsx",
-            "typescript",
-            "typescriptreact",
-            "typescript.tsx",
-          },
-        },
-      })
-
-      require("rust-tools").setup({
-        server = {
-          ["rust-analyzer"] = {
-            cargo = {
-              allFeatures = true,
-              loadOutDirsFromCheck = true,
-              runBuildScripts = true,
-            },
-            checkOnSave = {
-              allFeatures = true,
-              command = "clippy",
-              extraArgs = { "--no-deps" },
-            },
-          },
-          on_attach = function(_, bufnr)
-            vim.keymap.set("n", "<space>ca", require("rust-tools").hover_actions.hover_actions, { buffer = bufnr })
+          gopls = function()
+            require("lspconfig").gopls.setup({
+              settings = {
+                gopls = {
+                  codelenses = {
+                    gc_details = false,
+                    generate = true,
+                    regenerate_cgo = true,
+                    run_govulncheck = true,
+                    test = true,
+                    tidy = true,
+                    upgrade_dependency = true,
+                    vendor = true,
+                  },
+                  hints = {
+                    assignVariableTypes = true,
+                    compositeLiteralFields = true,
+                    compositeLiteralTypes = true,
+                    constantValues = true,
+                    functionTypeParameters = true,
+                    parameterNames = true,
+                    rangeVariableTypes = true,
+                  },
+                  analyses = {
+                    fieldalignment = true,
+                    nilness = true,
+                    unusedparams = true,
+                    unusedwrite = true,
+                    useany = true,
+                  },
+                  usePlaceholders = true,
+                  completeUnimported = true,
+                  staticcheck = true,
+                  semanticTokens = true,
+                },
+              },
+            })
+          end,
+          golangci_lint_ls = function()
+            require("lspconfig").golangci_lint_ls.setup({
+              filetypes = { "go", "gomod" },
+            })
+          end,
+          jsonls = function()
+            require("lspconfig").jsonls.setup({
+              settings = {
+                json = {
+                  format = {
+                    enable = true,
+                  },
+                  validate = {
+                    enable = true,
+                  },
+                  schemas = require("schemastore").json.schemas(),
+                },
+              },
+            })
+          end,
+          yamlls = function()
+            require("lspconfig").yamlls.setup({
+              settings = {
+                redhat = {
+                  telemetry = {
+                    enabled = false,
+                  },
+                },
+                yaml = {
+                  keyOrdering = false,
+                  format = {
+                    enable = true,
+                  },
+                  validate = {
+                    enable = true,
+                  },
+                  schemaStore = {
+                    enable = false,
+                    url = "",
+                  },
+                  schemas = require("schemastore").yaml.schemas(),
+                },
+              },
+            })
+          end,
+          tsserver = function()
+            require("typescript").setup({
+              server = {
+                cmd = { "typescript-language-server", "--stdio" },
+                on_attach = function(client)
+                  client.server_capabilities.documentFormattingProvider = false
+                  client.server_capabilities.documentRangeFormattingProvider = false
+                end,
+                filetypes = {
+                  "javascript",
+                  "javascriptreact",
+                  "javascript.jsx",
+                  "typescript",
+                  "typescriptreact",
+                  "typescript.tsx",
+                },
+              },
+            })
+          end,
+          rust_analyzer = function()
+            require("rust-tools").setup({
+              server = {
+                ["rust-analyzer"] = {
+                  cargo = {
+                    allFeatures = true,
+                    loadOutDirsFromCheck = true,
+                    runBuildScripts = true,
+                  },
+                  checkOnSave = {
+                    allFeatures = true,
+                    command = "clippy",
+                    extraArgs = { "--no-deps" },
+                  },
+                },
+                on_attach = function(_, bufnr)
+                  vim.keymap.set(
+                    "n",
+                    "<space>ca",
+                    require("rust-tools").hover_actions.hover_actions,
+                    { buffer = bufnr }
+                  )
+                end,
+              },
+            })
           end,
         },
       })
