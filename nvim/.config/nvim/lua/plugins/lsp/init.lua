@@ -76,6 +76,7 @@ return {
           "yamlls",
         },
         handlers = {
+          lsp_zero.default_setup,
           lua_ls = function()
             require("lspconfig").lua_ls.setup(lsp_zero.nvim_lua_ls({
               on_attach = function(client)
