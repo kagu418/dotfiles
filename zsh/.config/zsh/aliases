@@ -29,7 +29,7 @@ alias reload='. $ZDOTDIR/.zshrc'
 
 alias ~="cd ~"
 alias ..="cd .."
-alias path='tr ':' '"'\n'"' <<< $PATH'
+alias path='tr : \\n <<< "$PATH"'
 alias ea='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/alacritty/alacritty.yml'
 alias en='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/nvim/init.lua'
 alias et='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/tmux/tmux.conf'
