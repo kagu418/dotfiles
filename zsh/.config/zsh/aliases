@@ -30,10 +30,10 @@ alias reload='. $ZDOTDIR/.zshrc'
 alias ~="cd ~"
 alias ..="cd .."
 alias path='tr : \\n <<< "$PATH"'
-alias ea='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/alacritty/alacritty.yml'
-alias en='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/nvim/init.lua'
-alias et='$EDITOR -c '"'cd %:h'"' $XDG_CONFIG_HOME/tmux/tmux.conf'
-alias ez='$EDITOR -c '"'cd %:h'"' $ZDOTDIR/.zshrc'
+alias ea='$EDITOR -c cd\ %:h "$XDG_CONFIG_HOME/alacritty/alacritty.yml"'
+alias en='$EDITOR -c cd\ %:h "$XDG_CONFIG_HOME/nvim/init.lua"'
+alias et='$EDITOR -c cd\ %:h "$XDG_CONFIG_HOME/tmux/tmux.conf"'
+alias ez='$EDITOR -c cd\ %:h "$ZDOTDIR/.zshrc"'
 
 alias ip4="dig +short @resolver1.opendns.com myip.opendns.com | tee >(pbcopy)"
 alias localip="ipconfig getifaddr en0 | tee >(pbcopy)"
