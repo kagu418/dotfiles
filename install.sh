@@ -23,7 +23,7 @@ if ! [[ -d "$(xcode-select -p)" ]]; then
   fi
 fi
 
-if ( hash brew 2>/dev/null ); then
+if (type brew >/dev/null 2>&1); then
   printf "Skipping install Homebrew. It is already installed.\n"
 else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
