@@ -51,6 +51,9 @@ for dir in "$DOTFILES_DIR"/*; do
   $BREW_PREFIX/bin/stow -d "$DOTFILES_DIR" -t "$HOME" -R -v "${dir#"$DOTFILES_DIR"/}"
 done
 
-curl --create-dirs --output-dir "$HOME/.config/alacritty/themes" -O -fsSL https://raw.githubusercontent.com/rose-pine/alacritty/HEAD/dist/rose-pine-moon.yml
+curl --create-dirs --output-dir "$HOME/.config/alacritty/themes" \
+  -O -fsSL https://raw.githubusercontent.com/rose-pine/alacritty/HEAD/dist/rose-pine.toml \
+  -O -fsSL https://raw.githubusercontent.com/rose-pine/alacritty/HEAD/dist/rose-pine-moon.toml \
+  -O -fsSL https://raw.githubusercontent.com/rose-pine/alacritty/HEAD/dist/rose-pine-dawn.toml
 
 /bin/bash "$DOTFILES_DIR/macos/defaults"
