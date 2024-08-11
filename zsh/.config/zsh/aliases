@@ -2,28 +2,22 @@
 
 if [[ "$(uname)" = "Darwin" ]]; then
   # GNU coreutils
-  ( hash gcp 2>/dev/null; ) && alias cp="gcp -i"
-  ( hash gdate 2>/dev/null; ) && alias date="gdate"
-  ( hash gdu 2>/dev/null; ) && alias du="gdu"
-  ( hash gfind 2>/dev/null; ) && alias find="gfind"
-  ( hash ghead 2>/dev/null; ) && alias head="ghead"
-  ( hash gmkdir 2>/dev/null; ) && alias mkdir="gmkdir"
-  ( hash gmv 2>/dev/null; ) && alias mv="gmv -i"
-  ( hash grm 2>/dev/null; ) && alias rm="grm -i"
-  ( hash gtail 2>/dev/null; ) && alias sed="gtail"
-  ( hash gtee 2>/dev/null; ) && alias tee="gtee"
-  ( hash gtr 2>/dev/null; ) && alias tr="gtr"
+  (type gcp >/dev/null 2>&1) && alias cp="gcp -i"
+  (type gdate >/dev/null 2>&1) && alias date="gdate"
+  (type gdu >/dev/null 2>&1) && alias du="gdu"
+  (type ghead >/dev/null 2>&1) && alias head="ghead"
+  (type gmkdir >/dev/null 2>&1) && alias mkdir="gmkdir"
+  (type gmv >/dev/null 2>&1) && alias mv="gmv -i"
+  (type grm >/dev/null 2>&1) && alias rm="grm -i"
+  (type gtail >/dev/null 2>&1) && alias tail="gtail"
+  (type gtee >/dev/null 2>&1) && alias tee="gtee"
+  (type gtr >/dev/null 2>&1) && alias tr="gtr"
   # GNU findutils
-  ( hash gfind 2>/dev/null; ) && alias find="gfind"
+  (type gfind >/dev/null 2>&1) && alias find="gfind"
   # GNU grep
-  ( hash ggrep 2>/dev/null; ) && alias grep="ggrep --color=auto"
+  (type ggrep >/dev/null 2>&1) && alias grep="ggrep --color=auto"
   # GNU sed
-  ( hash gsed 2>/dev/null; ) && alias sed="gsed"
-
-  if hash dark-mode 2>/dev/null; then
-    alias dark="dark-mode on"
-    alias light="dark-mode off"
-  fi
+  (type gsed >/dev/null 2>&1) && alias sed="gsed"
 
   alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
   alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
@@ -44,9 +38,9 @@ alias ez='$EDITOR -c '"'cd %:h'"' $ZDOTDIR/.zshrc'
 alias ip4="dig +short @resolver1.opendns.com myip.opendns.com | tee >(pbcopy)"
 alias localip="ipconfig getifaddr en0 | tee >(pbcopy)"
 
-( hash bat 2>/dev/null; ) && alias cat="bat -pp"
+(type bat >/dev/null 2>&1) && alias cat="bat -pp"
 
-if hash exa 2>/dev/null; then
-  alias ls="exa -G --icons --color auto -a -s type"
-  alias ll="exa -l --icons --color always -a -s type"
+if type eza >/dev/null 2>&1; then
+  alias ls="eza -G --icons --color auto -a -s type"
+  alias ll="eza -l --icons --color auto -a -s type"
 fi
