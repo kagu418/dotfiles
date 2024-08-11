@@ -9,6 +9,12 @@ defaults write -g AppleShowScrollBars -string Automatic
 # Show all file extensions in the Finder
 defaults write -g AppleShowAllExtensions -bool true
 
+# Show hidden files in the Finder
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Hide the desktop icons
+defaults write com.apple.finder CreateDesktop -bool false
+
 # Set a shorter delay until keys repeat
 defaults write -g InitialKeyRepeat -int 10
 
@@ -70,9 +76,17 @@ defaults write com.apple.menuextra.clock ShowSeconds -bool false
 # Save screenshots in png format
 defaults write com.apple.screencapture type -string png
 
+# Disable the floating thumbnail after taking screenshots
+defaults write com.apple.screencapture show-thumbnail -bool false
+
 # Set tracking speed for the trackpad
 defaults write com.apple.trackpad.scaling -float 0.6875
+
+# Enable develop menu in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
 
 killall Dock
 killall Finder
 killall SystemUIServer
+killall Safari
