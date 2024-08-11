@@ -38,12 +38,7 @@ unset gcloud
 
 [[ -f "$ZDOTDIR/aliases" ]] && . "$ZDOTDIR/aliases"
 [[ -f "$ZDOTDIR/functions" ]] && . "$ZDOTDIR/functions"
-if [[ -d "$ZDOTDIR/local" ]]; then
-  for file in "$ZDOTDIR/local"/*; do
-    [[ -f "$file" ]] || continue
-    . "$file"
-  done
-fi
+[[ -d "$ZDOTDIR/local" ]] && for f in "$ZDOTDIR/local"/*(N-.); do . "$f"; done
 
 autoload -Uz compinit && compinit
 zstyle ":completion:*" menu select
