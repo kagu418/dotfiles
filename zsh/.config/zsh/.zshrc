@@ -24,21 +24,17 @@ fpath=(
   $fpath
 )
 
-export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
-( hash go 2>/dev/null; ) && export PATH="$(go env GOPATH)/bin:$PATH"
-export PATH="$HOME/.fnm:$PATH"
+(type go >/dev/null 2>&1) && export PATH="$(go env GOPATH)/bin:$PATH"
+(type fnm >/dev/null 2>&1) && export PATH="$HOME/.fnm:$PATH" && eval "$(fnm env --use-on-cd)"
 [[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 gcloud="/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
 [[ -f "$gcloud/path.zsh.inc" ]] && . "$gcloud/path.zsh.inc"
 [[ -f "$gcloud/completion.zsh.inc" ]] && . "$gcloud/completion.zsh.inc"
 unset gcloud
 
-( hash fnm 2>/dev/null; ) && eval "$(fnm env --use-on-cd)"
-( hash sheldon 2>/dev/null; ) && eval "$(sheldon source)"
-( hash starship 2>/dev/null; ) && eval "$(starship init zsh)"
-( hash zoxide 2>/dev/null; ) && eval "$(zoxide init zsh)"
+(type sheldon >/dev/null 2>&1) && eval "$(sheldon source)"
+(type starship >/dev/null 2>&1) && eval "$(starship init zsh)"
+(type zoxide >/dev/null 2>&1) && eval "$(zoxide init zsh)"
 
 [[ -f "$ZDOTDIR/aliases" ]] && . "$ZDOTDIR/aliases"
 [[ -f "$ZDOTDIR/functions" ]] && . "$ZDOTDIR/functions"
