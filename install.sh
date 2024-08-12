@@ -9,18 +9,17 @@ if [[ -d "$DOTFILES_DIR" ]]; then
   exit 1
 fi
 
-if ! [[ -d "$(xcode-select -p)" ]]; then
+if ! type xcode-select >/dev/null 2>&1; then
   printf "You must install Command Line Tools before running this shell script.\n"
   read -rp "Do you want to install Command Line Tools now? [y/N] "
   if [[ "${REPLY}" == [yY]* ]]; then
-    xcode-select --install
     printf "Installing Command Line Tools...\n"
-    printf "After installation is complete, run this again.\n"
-    exit 1
+    xcode-select --install
   else
-    printf "Use \`xcode-select --install\`.\n"
-    exit 1
+    printf "To install manually, use: \`xcode-select --install\`.\n"
   fi
+  printf "After installation is complete, run this again.\n"
+  exit 0
 fi
 
 if (type brew >/dev/null 2>&1); then
