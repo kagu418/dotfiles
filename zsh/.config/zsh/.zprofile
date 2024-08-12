@@ -1,4 +1,4 @@
-eval $(/opt/homebrew/bin/brew shellenv)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 if hash nvim 2>/dev/null; then
   export EDITOR="nvim"
