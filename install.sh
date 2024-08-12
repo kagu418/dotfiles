@@ -2,7 +2,7 @@
 
 DOTFILES_DIR="$HOME/.dotfiles"
 BREW_PREFIX="/opt/homebrew"
-REPO="https://github.com/kagu418/dotfiles.git"
+REPOSITORY="https://github.com/kagu418/dotfiles.git"
 
 if [[ -d "$DOTFILES_DIR" ]]; then
   printf "dotfiles already exists on \`%s\`.\n" "$DOTFILES_DIR" >&2
@@ -29,7 +29,7 @@ else
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-git clone --recursive "$REPO" "$DOTFILES_DIR"
+git clone --recursive "$REPOSITORY" "$DOTFILES_DIR"
 
 if [[ -d "$DOTFILES_DIR" ]]; then
   printf "Succeeded to clone repository to \`%s\`.\n" "$DOTFILES_DIR"
